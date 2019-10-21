@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { map, concatMap, delay } from 'rxjs/operators';
+import { merge, timer } from 'rxjs';
+import { map, delay, switchMap } from 'rxjs/operators';
 
 import { TodoActions } from '../actions';
-import { from } from 'rxjs';
 
 @Injectable()
 export class TodoEffect {
@@ -19,16 +19,7 @@ export class TodoEffect {
   decrease$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodoActions.change),
-      map(() => {
-        return TodoActions.decrease();
-      })
-    )
-  );
-
-  decrease2$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(TodoActions.change),
-      delay(500),
+      switchMap(() => merge(timer(0), timer(500))),
       map(() => {
         return TodoActions.decrease();
       })

@@ -1,25 +1,64 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Store } from '@ngrx/store';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { AppState } from '../reducers';
 import { C2Component } from './c2.component';
+import { C1Component } from '../c1/c1.component';
+import { TodoActions } from '../actions';
 
-describe('C2Component', () => {
-  let component: C2Component;
+describe('Login Page', () => {
   let fixture: ComponentFixture<C2Component>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ C2Component ]
-    })
-    .compileComponents();
-  }));
+  let store: MockStore<AppState>;
+  let instance: C2Component;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+      ],
+      declarations: [C2Component, C1Component],
+      providers: [
+        provideMockStore({
+          // selectors: [
+          //   { selector: fromAuth.selectLoginPagePending, value: false },
+          // ],
+        }),
+      ],
+    });
+
     fixture = TestBed.createComponent(C2Component);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    instance = fixture.componentInstance;
+    store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(instance).toBeTruthy();
   });
+
+  it('should dispatch a reset action on when click reset', () => {
+    const action = TodoActions.reset();
+    instance.onResetClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a change action on when click start button', () => {
+    jasmine.clock().install();
+
+    const action = TodoActions.change();
+    instance.onStartClicked();
+    jasmine.clock().tick(500);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+    instance.onStopClicked();
+
+    jasmine.clock().uninstall();
+  });
+
+  it('should update this.started to false when click stop button ', () => {
+    instance.onStopClicked();
+
+    expect(instance.started).toEqual(false);
+  });
+
 });
