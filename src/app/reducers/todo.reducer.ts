@@ -24,4 +24,9 @@ export const reducer = createReducer(
     TodoActions.decrease,
     (state) => ({ ...state, v2: state.v2 - 1 })
   ),
+
+  on(
+    TodoActions.reset,
+    () => (initialState)
+  ),
 );

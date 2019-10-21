@@ -10,9 +10,9 @@
   </div>
 
   <div class="mt-3">
-    <button class="btn btn-primary" (click)="onStartClicked()">Start</button>
-    <button class="btn btn-primary" (click)="onStopClicked()">Stop</button>
-    <button class="btn btn-primary" (click)="onResetClicked()">Reset</button>
+    <button class="btn btn-primary" [disabled]="started" (click)="onStartClicked()">Start</button>
+    <button class="btn btn-secondary ml-2" [disabled]="!started"  (click)="onStopClicked()">Stop</button>
+    <button class="btn btn-light ml-2" (click)="onResetClicked()">Reset</button>
   </div>
 
 </div>

@@ -12,10 +12,6 @@ export const decrease = createAction(
   '[TODO] decrease'
 );
 
-export const stop = createAction(
-  '[TODO] stop'
-);
-
 export const reset = createAction(
   '[TODO] reset'
 );
