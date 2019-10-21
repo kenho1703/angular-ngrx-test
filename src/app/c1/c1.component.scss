@@ -1,0 +1,12 @@
+.form-control {
+
+  &.invalid {
+    border-color: red;
+    color: red;
+  }
+
+  &.valid {
+    border-color: blue;
+    color: blue;
+  }
+}
