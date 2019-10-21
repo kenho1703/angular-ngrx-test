@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject, interval, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, timer } from 'rxjs';
 
 import { AppState } from '../reducers';
 import { TodoSelectors } from '../selectors';
@@ -38,7 +38,7 @@ export class C2Component implements OnInit {
     this.a.next(true);
 
     this.a.pipe(
-      switchMap(() => interval(1000)),
+      switchMap(() => timer(500, 1000)),
       takeUntil(this.stopped$)
     ).subscribe(() => {
       this.store.dispatch(TodoActions.change());

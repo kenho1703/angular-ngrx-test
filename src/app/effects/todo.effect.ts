@@ -11,6 +11,7 @@ export class TodoEffect {
   increase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodoActions.change),
+      delay(500),
       map(() => TodoActions.increase())
     )
   );
@@ -25,14 +26,14 @@ export class TodoEffect {
   );
 
   decrease2$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(TodoActions.change),
-    delay(500),
-    map(() => {
-      return TodoActions.decrease();
-    })
-  )
-);
+    this.actions$.pipe(
+      ofType(TodoActions.change),
+      delay(500),
+      map(() => {
+        return TodoActions.decrease();
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions
