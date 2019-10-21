@@ -1,24 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { map } from 'rxjs/operators';
+import { map, switchMap, delay } from 'rxjs/operators';
 
 import { TodoActions } from '../actions';
-import { Observable, interval, Subject, of } from 'rxjs';
+import { from } from 'rxjs';
 
 @Injectable()
 export class TodoEffect {
-
-  // timer = new Subject();
-
-  // timer$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TodoActions.change),
-  //     tap(() => {
-  //       interval(1000).pip;
-  //     })
-  //   )
-  //   , { dispatch: false }
-  // );
 
   increase$ = createEffect(() =>
     this.actions$.pipe(
@@ -30,18 +18,14 @@ export class TodoEffect {
   decrease$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TodoActions.change),
-      map(() => {
-        return TodoActions.decrease();
-      })
+      switchMap(() => from([0, 1]).pipe(
+        delay(1000),
+        map(() => {
+          return TodoActions.decrease();
+        })
+      )),
     )
   );
-
-  // stop = createEffect(() => this.actions$.pipe(
-  //   ofType(TodoActions.stop),
-  //   tap(() => {
-  //     this.timer.complete();
-  //   })
-  // ));
 
   constructor(
     private actions$: Actions
