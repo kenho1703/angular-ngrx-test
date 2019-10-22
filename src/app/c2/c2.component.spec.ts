@@ -18,9 +18,6 @@ describe('Login Page', () => {
       declarations: [C2Component, C1Component],
       providers: [
         provideMockStore({
-          // selectors: [
-          //   { selector: fromAuth.selectLoginPagePending, value: false },
-          // ],
         }),
       ],
     });
@@ -43,15 +40,17 @@ describe('Login Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a change action on when click start button', () => {
+  it('should dispatch a change action every second when click start button', () => {
     jasmine.clock().install();
 
     const action = TodoActions.change();
     instance.onStartClicked();
     jasmine.clock().tick(500);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    jasmine.clock().tick(4000);
     instance.onStopClicked();
 
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(store.dispatch).toHaveBeenCalledTimes(5);
     jasmine.clock().uninstall();
   });
 
